@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<article lang="">
+  <para>1.  После разворачивания всех контейнеров рекурсивно  скопируем все скачанные файлы книг с локального компьютера в контейнер datanode-1, попутно создав в нём папку data_books:</para>
+  <para>        Команда:</para>
+  <para>                docker cp books/ docker-hadoop-hive-parquet_datanode_1:data_books/</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение2" width="14.437cm" depth="0.618cm"/></para>
+  <para/>
+  <para>2. Подключаемся к datanode-1:</para>
+  <para>        Команда: </para>
+  <para>                docker exec -it docker-hadoop-hive-parquet_datanode_1 bash</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение1" width="4.869cm" depth="0.557cm"/></para>
+  <para>        </para>
+  <para>3. Объединим все книги в один файл:</para>
+  <para>        Команда:</para>
+  <para>                cat data_books/* &gt; data_books/war_and_peace.txt</para>
+  <para/>
+  <para>4. Отправим полученный файл в файловую систему HDFS:</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -put data_books/war_and_peace.txt /user/hadoop/war_and_peace.txt</para>
+  <para/>
+  <para>5. Запросим содержимое личной папки на HDFS:</para>
+  <para>        Команда: </para>
+  <para>                hadoop fs -ls /user/hadoop/</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение3" width="14.617cm" depth="0.895cm"/></para>
+  <para>                </para>
+  <para>6. Поменяем права на файл: полные для владельца файла, а для остальных права на чтение и исполнение:</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -chmod 755 /user/hadoop/war_and_peace.txt</para>
+  <para/>
+  <para>7. Проверим заново права доступа:</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -ls /user/hadoop/</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение4" width="14.525cm" depth="0.895cm"/></para>
+  <para/>
+  <para/>
+  <para>8. Узнаем размер конкретного файла в мб. :</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -du -h /user/hadoop/war_and_peace.txt</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение5" width="8.679cm" depth="0.662cm"/></para>
+  <para/>
+  <para/>
+  <para>9. Но команда выше покажет просто размер файла, а какой фактор репликации или сколько памяти занимает файл с учётом репликации мы не узнаем, поэтому воспользуемся другой командой, и увидим что текущий фактор репликации равен 3, помимо размера файла в мб:</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -ls -h /user/hadoop/</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение7" width="13.44cm" depth="0.946cm"/></para>
+  <para/>
+  <para>9. Устанавливаем фактор репликации равный 2-м:</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -setrep 2 /user/hadoop/war_and_peace.txt</para>
+  <para>        Ответ:</para>
+  <para>
+    <inlinegraphic fileref="embedded:Изображение6" width="11.193cm" depth="0.61cm"/>
+  </para>
+  <para/>
+  <para/>
+  <para>                 </para>
+  <para>10. Проверим какой теперь фактор репликации:</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -ls -h /user/hadoop/</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение8" width="14.262cm" depth="0.899cm"/></para>
+  <para/>
+  <para/>
+  <para/>
+  <para>11. Наконец, подсчитаем количество строк в файле:</para>
+  <para>        Команда:</para>
+  <para>                hadoop fs -cat /user/hadoop/war_and_peace.txt | wc -l</para>
+  <para>        Ответ:</para>
+  <para>                <inlinegraphic fileref="embedded:Изображение9" width="1.641cm" depth="0.689cm"/></para>
+</article>
