@@ -1,7 +1,7 @@
 # hadoop_hdfs
 Задание на установку Hadoop и работу с файловой системов HDFS в рамках курса "Инженер данных"
 
-Команды и их результаты представлены в файле: <code>[hadoop fs.odt](https://github.com/AlexeyAnanchenko/hadoop_hdfs/blob/main/hadoop fs.odt)</code>.
+Команды и их результаты представлены в файле: <code>[hadoop fs.odt](https://github.com/AlexeyAnanchenko/hadoop_hdfs/blob/main/hadoop/hadoop_fs.odt)</code>.
 
 ### Выполненные задачи:
 
